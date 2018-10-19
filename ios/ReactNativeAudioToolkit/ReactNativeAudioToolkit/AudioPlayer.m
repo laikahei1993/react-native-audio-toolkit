@@ -61,20 +61,26 @@
                                nil];
     
     NSString *possibleUrl = [NSString pathWithComponents:pathComponents];
+  
+    NSLog(@"path = %@", path);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:possibleUrl]) {
         NSString *fileWithoutExtension = [path stringByDeletingPathExtension];
         NSString *extension = [path pathExtension];
         NSString *urlString = [[NSBundle mainBundle] pathForResource:fileWithoutExtension ofType:extension];
         if (urlString) {
+            printf("urlString");
             url = [NSURL fileURLWithPath:urlString];
         } else {
+            printf("not urlString");
             NSString* mainBundle = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], path];
             BOOL isDir = NO;
             NSFileManager* fm = [NSFileManager defaultManager];
             if ([fm fileExistsAtPath:mainBundle isDirectory:&isDir]) {
+                printf("fileURLWithPath");
                 url = [NSURL fileURLWithPath:mainBundle];
             } else {
+                printf("URLWithString");
                 url = [NSURL URLWithString:path];
             }
             
