@@ -160,7 +160,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
     
     //make sure loadedTimeRanges is not null
     do {
-      NSValue *val = [[[audioPlayer currentItem] loadedTimeRanges] objectAtIndex:0];
+      NSValue *val = [[[player currentItem] loadedTimeRanges] objectAtIndex:0];
       CMTimeRange timeRange;
       [val getValue:&timeRange];
       CMTime duration = timeRange.duration;
