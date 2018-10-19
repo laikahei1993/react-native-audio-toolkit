@@ -157,25 +157,11 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
     while (player.status == AVPlayerStatusUnknown) {
         [NSThread sleepForTimeInterval:0.01f];
     }
-  
-  if (player.status == AVPlayerStatusReadyToPlay) {
-    printf("AVPlayerStatusReadyToPlay\n");
-  } else if (player.status == AVPlayerStatusFailed) {
-    printf("AVPlayerStatusFailed\n");
-  }
-  
-  if (player.currentItem.status == AVPlayerItemStatusUnknown) {
-    printf("AVPlayerItemStatusUnknown\n");
-  } else if (player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-    printf("AVPlayerItemStatusReadyToPlay\n");
-  } else if (player.currentItem.status == AVPlayerItemStatusFailed) {
-    printf("AVPlayerItemStatusFailed\n");
-  }
     
     //make sure loadedTimeRanges is not null
-//    while (player.currentItem.loadedTimeRanges.firstObject == nil){
-//        [NSThread sleepForTimeInterval:0.01f];
-//    }
+    while (player.currentItem.loadedTimeRanges.firstObject == nil){
+        [NSThread sleepForTimeInterval:0.01f];
+    }
   
     // Callback when ready / failed
     if (player.status == AVPlayerStatusReadyToPlay) {
