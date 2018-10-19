@@ -159,12 +159,13 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
     }
     
     //make sure loadedTimeRanges is not null
+    float timeLoaded = 0;
     do {
       NSValue *val = [[[player currentItem] loadedTimeRanges] objectAtIndex:0];
       CMTimeRange timeRange;
       [val getValue:&timeRange];
       CMTime duration = timeRange.duration;
-      float timeLoaded = (float) duration.value / (float) duration.timescale;
+      timeLoaded = (float) duration.value / (float) duration.timescale;
     
       if (timeLoaded == 0) {
         [NSThread sleepForTimeInterval:0.01f];
