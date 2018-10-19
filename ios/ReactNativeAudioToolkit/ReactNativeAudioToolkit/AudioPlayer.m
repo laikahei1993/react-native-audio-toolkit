@@ -61,26 +61,20 @@
                                nil];
     
     NSString *possibleUrl = [NSString pathWithComponents:pathComponents];
-  
-    NSLog(@"path = %@", path);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:possibleUrl]) {
         NSString *fileWithoutExtension = [path stringByDeletingPathExtension];
         NSString *extension = [path pathExtension];
         NSString *urlString = [[NSBundle mainBundle] pathForResource:fileWithoutExtension ofType:extension];
         if (urlString) {
-            printf("urlString");
             url = [NSURL fileURLWithPath:urlString];
         } else {
-            printf("not urlString");
             NSString* mainBundle = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], path];
             BOOL isDir = NO;
             NSFileManager* fm = [NSFileManager defaultManager];
             if ([fm fileExistsAtPath:mainBundle isDirectory:&isDir]) {
-                printf("fileURLWithPath");
                 url = [NSURL fileURLWithPath:mainBundle];
             } else {
-                printf("URLWithString");
                 url = [NSURL URLWithString:path];
             }
             
@@ -115,6 +109,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
         callback(@[dict]);
         return;
     }
+  printf("breakpoint 1\n");
     
     // Load asset from the url
     AVURLAsset *asset = [AVURLAsset assetWithURL: url];
@@ -126,6 +121,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
                                              selector:@selector(itemDidFinishPlaying:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:item];
+  printf("breakpoint 2\n");
     
     // Set audio session
     NSError *error = nil;
@@ -136,6 +132,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
         callback(@[dict]);
         return;
     }
+  printf("breakpoint 3\n");
     
     // Initialize player
     ReactPlayer* player = [[ReactPlayer alloc]
@@ -157,17 +154,20 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
         callback(@[dict]);
         return;
     }
+  printf("breakpoint 4\n");
     
     // Prepare the player
     // Wait until player is ready
     while (player.status == AVPlayerStatusUnknown) {
         [NSThread sleepForTimeInterval:0.01f];
     }
+  printf("breakpoint 5\n");
     
     //make sure loadedTimeRanges is not null
     while (player.currentItem.loadedTimeRanges.firstObject == nil){
         [NSThread sleepForTimeInterval:0.01f];
     }
+  printf("breakpoint 6\n");
     
     // Callback when ready / failed
     if (player.status == AVPlayerStatusReadyToPlay) {
@@ -182,6 +182,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSNumber*)playerId
         
         callback(@[dict]);
     }
+  printf("breakpoint 7\n");
 }
 
 RCT_EXPORT_METHOD(destroy:(nonnull NSNumber*)playerId withCallback:(RCTResponseSenderBlock)callback) {
